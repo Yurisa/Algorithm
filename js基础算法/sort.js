@@ -262,3 +262,25 @@ function __quickSort3Ways(arr, l, r){
     __quickSort3Ways(arr, gt, r)    
 
 }
+
+var MaxHeap = require('./heap.js');
+let arr = [88, 55, 56, 1, 62, 85, 48, 55, 65, 12, 37, 99]
+heapSort2(arr);
+console.log(...arr);
+function heapSort1(arr){
+    let maxHeap = new MaxHeap();
+    for(let i = 0; i < arr.length; i++){
+        maxHeap.insert(arr[i]);
+    }
+    for(let i = arr.length - 1; i >=0; i--){
+        arr[i] = maxHeap.extracMax();
+    }
+}
+
+
+function heapSort2(arr){
+    let maxHeap = new MaxHeap(arr);
+    for(let i = arr.length - 1; i >=0; i--){
+        arr[i] = maxHeap.extracMax();
+    }
+}

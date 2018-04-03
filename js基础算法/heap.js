@@ -1,8 +1,21 @@
-class MaxHeap{  
-    constructor(){
-        this.data = [];
-        this.count = 0;
+module.exports = class MaxHeap{  
+    // constructor(){
+    //     this.data = [];
+    //     this.count = 0;
+    // }
+
+    constructor(arr){
+       this.data = [];
+       this.count = 0;
+       for(let i = 0; i < arr.length; i++){
+           this.data[i+1] = arr[i];
+       }
+       this.count = arr.length;
+       for(let i = parseInt(this.count/2); i >= 1; i--){
+           this.shiftdown(i)
+       }
     }
+
     size() {
         return this.count;
     }
@@ -67,15 +80,6 @@ class MaxHeap{
         }
     }
     
-}
-
-var maxHeap  = new MaxHeap();
-for(let i = 0; i < 100; i++){
-    maxHeap.insert(Math.floor(Math.random() * 100))
-}
-
-while( !maxHeap.isEmpty()){
-    console.log(maxHeap.extracMax());
 }
 
 
