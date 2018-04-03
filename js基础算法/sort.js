@@ -263,10 +263,18 @@ function __quickSort3Ways(arr, l, r){
 
 }
 
+
 var MaxHeap = require('./heap.js');
 let arr = [88, 55, 56, 1, 62, 85, 48, 55, 65, 12, 37, 99]
-heapSort2(arr);
+heapSort(arr);
 console.log(...arr);
+
+/**
+ * 堆排序
+ * 将n个元素逐个插入到一个空堆中, 算法复杂度是O(nlogn)
+ * heapify的过程, 算法复杂度为O(n)
+ * @param {*} arr 
+ */
 function heapSort1(arr){
     let maxHeap = new MaxHeap();
     for(let i = 0; i < arr.length; i++){
@@ -277,10 +285,48 @@ function heapSort1(arr){
     }
 }
 
-
+/**
+ * heapify
+ * @param {*} arr 
+ */
 function heapSort2(arr){
     let maxHeap = new MaxHeap(arr);
     for(let i = arr.length - 1; i >=0; i--){
         arr[i] = maxHeap.extracMax();
     }
 }
+
+/**
+ * 原地堆排序
+ * @param {*} arr 
+ */
+function heapSort(arr){
+     for(let i = parseInt((arr.length - 1)/2); i >= 0; i--){
+         __shiftDown(arr, arr.length, i);
+     }
+
+     for(let n = arr.length - 1; n > 0; n--){
+
+         [arr[0], arr[n]] = [arr[n], arr[0]];
+         console.log(n)
+         console.log(arr)
+         __shiftDown(arr, n, 0);
+     }
+}
+
+function __shiftDown(arr, n, k){
+    // 优化版本
+   k = parseInt(k)
+   let key = arr[k] 
+   while( 2*k+1 < n){
+       let j = 2*k+1; //在此轮循环中, arr[k]和arr[j]交换位置
+       if(j + 1 < n && arr[j+1] > arr[j])
+          j += 1;
+       if(key >= arr[j])
+          break;
+       arr[k] = arr[j];
+       k = parseInt(j); 
+   }
+   [key, arr[k]] = [arr[k], key];
+}
+
