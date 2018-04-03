@@ -218,7 +218,10 @@ function __partition2(arr, l, r){
     [arr[l], arr[j]] = [arr[j], arr[l]]
 }
 
-
+/**
+ * 三路快排
+ * @param {*} arr 
+ */
 function quickSort3Ways(arr){
     __quickSort3Ways(arr, 0, arr.length - 1 );
 }
