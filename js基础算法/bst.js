@@ -44,6 +44,43 @@ module.exports = class BST{
     destroy(){
         this.__destroy(this.root);
     }
+
+    //层序遍历
+    levelOrder(){
+        this.__levelOrder();
+    }
+
+
+    //寻找最小值
+    minimum(){
+        let minNode = this.__minimum(this.root);
+        return minNode.key;
+    }
+
+    //寻找最大值
+    maxmum(){
+        let maxNode = this.__maxmum(this.root);
+        return maxNode.key;
+    }
+
+    //从二叉树中删除最小值所在节点
+    removeMin(){
+        if(this.root){
+            this.root = this.__removeMin(root);
+        }
+    }
+
+     //从二叉树中删除最大值所在节点
+    removeMax(){
+        if(this.root){
+            this.root = this.__removeMax(root);
+        }
+    }
+
+    //从二叉搜索树中删除键值为key的节点
+    remove(key){
+        this.root = this.__remove(node, key);
+    }
     //向以node为根的二叉搜索树中, 插入节点(key, value)
     //返回插入新节点后二叉搜索树的根
     __insert(node, key, value){
@@ -125,6 +162,105 @@ module.exports = class BST{
             this.count--;
         }
     }
+
+    __levelOrder(){
+        let queue = [];
+        queue.push(this.root);
+        while(queue.length > 0){
+            let node = queue.shift();
+            console.log(node.key);
+            if(node.left){
+                queue.push(node.left);
+            }
+            if(node.right){
+                queue.push(node.right);
+            }
+        }
+    }
+
+    //以node为根的二叉搜索树中, 返回最小键值的节点
+    __minimum(node){
+        if(!node.left){
+            return node;
+        }
+        return this.__minimum(node.left)
+        //非递归写法
+        // let currentNode;
+        // while(node.left){
+        //     currentNode = node.left;
+        // }
+        // return currentNode; 
+    }
+
+    __maxmum(node){
+        if(!node.right){
+            return node;
+        }
+        return this.__maxmum(node.right);
+    }
+    
+    //删除掉以node为根的二分搜索树中的最小节点
+    //返回删除节点后新的二分搜索树的根
+    __removeMin(node){
+        if(!node.left){
+            let rightNode = node.right;
+            node = null;
+            this.count--;
+            return rightNode;
+        }
+        node.left = this.__removeMin(node.left)
+        return node; 
+    }
+
+    //删除掉以node为根的二分搜索树中的最大节点
+    //返回删除节点后新的二分搜索树的根
+    __removeMax(node){
+        if(!node.right){
+            let leftNode = node.left;
+            node = null;
+            this.count--;
+            return leftNode;
+        }
+        node.right = this.__removeMin(node.right)
+        return node; 
+    }
+
+    //删除掉以node为根的二分搜索树中键值为key的节点
+    //返回删除节点后新的二分搜索树的根
+    __remove(node, key){
+        if(!node){
+            return null;
+        }
+        if(key < node.key){
+            node.left = this.__remove(node.left, key);
+            return node;
+        }else if(key > node.key){
+            node.right = this.__remove(node.right, key);
+            return node;
+        }else{
+            if(!node.left){
+                let rightNode = node.right;
+                node = null;
+                this.count--;
+                return rightNode;
+            }
+            if(!node.right){
+                let leftNode = node.left;
+                node = null;
+                this.count--;
+                return leftNode;
+            }
+
+           let successor = this.__minimum(node.right);
+           successor = JSON.parse(JSON.stringify(successor));
+           successor.right = this.__removeMin(node.right);
+           successor.left = node.left;
+           node = null;
+           this.count --;
+           return successor;
+        }
+    }
+
 }
 
 class Node{
